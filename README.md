@@ -9,12 +9,12 @@ npm install node-coincheck
 var coincheck = require('node-coincheck');
 var api = coincheck.PublicApi;
 
-api.ticker(function(body) {
+api.ticker(function(err, body) {
         console.log(body);
     }
 )
 
-api.trades(offset, function(body) {
+api.trades(offset, function(err, body) {
         console.log(body);
     }
 )
@@ -31,35 +31,35 @@ fs.readFileAsync('./config.json').then(JSON.parse).
 then(function(config){
     var api = coincheck.createPrivateApi(config.coincheck_apikey, config.coincheck_secretkey, 'user agent is node-coincheck');
     // call api
-    api.getBalance(function(body) {
+    api.getBalance(function(err, body) {
             console.log(body);
         }
     );
-    api.activeOrders(function(body) {
+    api.activeOrders(function(err, body) {
             console.log(body);
         }
     );
-    api.trade('btc_jpy', 'buy', 1, 1, function(body) {
+    api.trade('btc_jpy', 'buy', 1, 1, function(err, body) {
             console.log(body);
         }
     );
-    api.cancelOrder(5910927, function(body) {
+    api.cancelOrder(5910927, function(err, body) {
             console.log(body);
         }
     );
 
     // for leverage
-    api.getLeverageBalance(function(body){
+    api.getLeverageBalance(function(err, body){
             console.log(body);
         }
     );
 
-    api.transferToLeverage('JPY', 10000, function(body){
+    api.transferToLeverage('JPY', 10000, function(err, body){
             console.log(body);
         }
     );
 
-    api.transferFromLeverage('JPY', 10000, function(body){
+    api.transferFromLeverage('JPY', 10000, function(err, body){
             console.log(body);
         }
     );
