@@ -65,3 +65,30 @@ then(function(config){
     );
 }).catch(console.log);
 ```
+
+## Generator Style
+
+```
+var coincheck = require('node-coincheck');
+var co = require('co');
+var Promise = require('bluebird');
+var fs = Promise.promisifyAll(require('fs'));
+
+co(function *(){
+    var config = yield fs.readFileAsync('./config.json', 'utf8').then(JSON.parse);
+    var api = coincheck.createPrivateApi(
+        config.coincheck_apikey,
+        config.coincheck_secretkey,
+        'user agent is node-coincheck'
+    );
+
+    var balance = yield Promise.promisify(api.getBalance);
+    console.log(balance);
+
+    // call other apis...
+
+}).catch(function(e){
+    console.log(e.stack);
+});
+
+```
