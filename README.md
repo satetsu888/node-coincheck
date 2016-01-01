@@ -76,13 +76,15 @@ var fs = Promise.promisifyAll(require('fs'));
 
 co(function *(){
     var config = yield fs.readFileAsync('./config.json', 'utf8').then(JSON.parse);
-    var api = coincheck.createPrivateApi(
-        config.coincheck_apikey,
-        config.coincheck_secretkey,
-        'user agent is node-coincheck'
+    var api = Promise.promisifyAll(
+        coincheck.createPrivateApi(
+            config.coincheck_apikey,
+            config.coincheck_secretkey,
+            'user agent is node-coincheck'
+        )
     );
 
-    var balance = yield Promise.promisify(api.getBalance);
+    var balance = yield api.getBalanceAsync();
     console.log(balance);
 
     // call other apis...
